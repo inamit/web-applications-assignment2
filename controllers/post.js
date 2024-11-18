@@ -19,7 +19,7 @@ const getPosts = async (req, res) => {
 const saveNewPost = async (req, res) => {
   try {
     const post = new Post({
-      content: req.body.message,
+      content: req.body.content,
       sender: req.body.sender,
     });
     const savedPost = await post.save();

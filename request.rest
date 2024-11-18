@@ -1,12 +1,13 @@
 ###
 
-GET http://localhost:3000/posts?post_id=673b4ca5056cb1dd388364aa
+GET http://localhost:3000/comments
 
 ###
-POST http://localhost:3000/posts
+POST http://localhost:3000/comments
 Content-Type: application/json
 
 {
-  "message": "New Post",
+  "postID": "673b78ba056cb1dd388364b4",
+  "content": "New comment",
   "sender": "amit"
 }
