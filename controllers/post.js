@@ -1,8 +1,13 @@
 const Post = require("../models/post");
 
-const getAllPosts = async (req, res) => {
+const getPosts = async (req, res) => {
+  const { sender } = req.query;
+  let posts = [];
   try {
-    const posts = await Post.find();
+    if (sender)
+      posts = await Post.find({ sender: sender });
+    else
+      posts = await Post.find();
     res.json(posts);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -12,7 +17,7 @@ const getAllPosts = async (req, res) => {
 const saveNewPost = async (req, res) => {
   try {
     const post = new Post({
-      message: req.body.message,
+      content: req.body.message,
       sender: req.body.sender,
     });
     const savedPost = await post.save();
@@ -36,4 +41,4 @@ const getPostById = async (req, res) => {
   }
 };
 
-module.exports = { getAllPosts, saveNewPost, getPostById };
+module.exports = { getPosts, saveNewPost, getPostById };
