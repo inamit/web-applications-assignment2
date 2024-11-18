@@ -1,7 +1,6 @@
 ###
 
-GET http://localhost:3000/posts?post_id=673b4ca5056cb1dd388364aa
-
+GET http://localhost:3000/post
 ###
 POST http://localhost:3000/posts
 Content-Type: application/json
@@ -9,4 +8,19 @@ Content-Type: application/json
 {
   "message": "New Post",
   "sender": "amit"
+}
+
+###
+GET http://localhost:3000/posts/673b7bd1df3f05e1bdcf5320
+
+###
+GET http://localhost:3000/posts?sender=1234567
+
+###
+PUT http://localhost:3000/posts/673b7bd1df3f05e1bdcf5320 
+Content-Type: application/json
+
+{
+  "message": "Update Post",
+  "sender": "Benli"
 }

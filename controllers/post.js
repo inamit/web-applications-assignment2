@@ -1,7 +1,5 @@
 const Post = require("../models/post");
 
-// if sender provided, returns all the sender's posts
-// otherwise, return all posts
 const getPosts = async (req, res) => {
   const { sender } = req.query;
   let posts = [];
@@ -43,4 +41,20 @@ const getPostById = async (req, res) => {
   }
 };
 
-module.exports = { getPosts, saveNewPost, getPostById };
+const updatePostById = async (req, res) => {
+  const { post_id } = req.params;
+  const { content, sender } = req.body;
+  try {
+      if (!content || !sender)
+          return res.status(400).json({ error: "Content and sender are required." });
+      const updatedPost = await Post.findByIdAndUpdate(post_id, { content, sender }, { new: true, runValidators: true });
+      if (!updatedPost)
+          return res.status(404).json({ error: "Post not found." });
+      res.json(updatedPost);
+  } catch (err) {
+      console.error("Error updating post:", err);
+      res.status(500).json({ error: "An error occurred while updating the post." });
+  }
+};
+
+module.exports = { getPosts, saveNewPost, getPostById, updatePostById };
