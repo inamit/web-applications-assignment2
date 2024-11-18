@@ -22,4 +22,18 @@ const saveNewPost = async (req, res) => {
   }
 };
 
-module.exports = { getAllPosts, saveNewPost };
+const getPostById = async (req, res) => {
+  const { post_id } = req.params;
+  try {
+    const post = await Post.findById(post_id);
+    if (!post) {
+        return res.status(404).json({ error: "Post not found" });
+    }
+    res.json(post);
+  } catch (err) {
+    console.error("Error fetching post:", err);
+    res.status(400).json({ error: "Invalid post ID" });
+  }
+};
+
+module.exports = { getAllPosts, saveNewPost, getPostById };

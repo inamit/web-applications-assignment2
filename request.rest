@@ -1,6 +1,6 @@
 ###
 
-GET http://localhost:3000/posts
+GET http://localhost:3000/posts?post_id=673b4ca5056cb1dd388364aa
 
 ###
 POST http://localhost:3000/posts
