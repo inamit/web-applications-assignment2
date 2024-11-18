@@ -1,5 +1,7 @@
 const Post = require("../models/post");
 
+// if sender provided, returns all the sender's posts
+// otherwise, return all posts
 const getPosts = async (req, res) => {
   const { sender } = req.query;
   let posts = [];
