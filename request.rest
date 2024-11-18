@@ -1,8 +1,37 @@
+
+GET http://localhost:3000/posts
+###
+
+POST http://localhost:3000/posts
+Content-Type: application/json
+
+{
+  "message": "New Post",
+  "sender": "amit"
+}
+
+
+###
+GET http://localhost:3000/posts/673b7bd1df3f05e1bdcf5320
+
+###
+GET http://localhost:3000/posts?sender=1234567
+
+###
+PUT http://localhost:3000/posts/673b7bd1df3f05e1bdcf5320 
+Content-Type: application/json
+
+{
+  "message": "Update Post",
+  "sender": "Benli"
+}
+
 ###
 
 GET http://localhost:3000/comments
 
 ###
+
 POST http://localhost:3000/comments
 Content-Type: application/json
 
