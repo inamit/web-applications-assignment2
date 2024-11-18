@@ -2,8 +2,8 @@ const Post = require("../models/post");
 
 const getPosts = async (req, res) => {
   const { sender } = req.query;
-  let posts = [];
   try {
+    let posts = [];
     if (sender)
       posts = await Post.find({ sender: sender });
     else
@@ -17,7 +17,7 @@ const getPosts = async (req, res) => {
 const saveNewPost = async (req, res) => {
   try {
     const post = new Post({
-      content: req.body.message,
+      content: req.body.content,
       sender: req.body.sender,
     });
     const savedPost = await post.save();
