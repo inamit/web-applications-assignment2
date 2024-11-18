@@ -10,7 +10,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use("/posts", require("./routes/post"));
-app.use("/comments", require("./routes/comment"));
+app.use("/posts/:postID/comments", require("./routes/comment"));
+app.use("/comments", require("./routes/allComments"));
 
 const port = process.env.PORT || 3000;
 
