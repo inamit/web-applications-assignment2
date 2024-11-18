@@ -9,10 +9,21 @@ const getAllComments = async (req, res) => {
   }
 };
 
+const getCommentsByPostId = async (req, res) => {
+  const { postID } = req.params;
+  try {
+    const comments = await Comment.find({ postID: postID });
+    res.json(comments);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 const saveNewComment = async (req, res) => {
+  const { postID } = req.params;
   try {
     const comment = new Comment({
-      postID: req.body.postID,
+      postID,
       content: req.body.content,
       sender: req.body.sender,
     });
@@ -23,4 +34,4 @@ const saveNewComment = async (req, res) => {
   }
 };
 
-module.exports = { getAllComments, saveNewComment };
+module.exports = { getAllComments, getCommentsByPostId, saveNewComment };
