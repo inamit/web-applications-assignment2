@@ -32,8 +32,26 @@ const saveNewComment = async (req, res) => {
     const savedComment = await comment.save();
     res.json(savedComment);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error("Error saving comment:", err);
+    res.status(500).json({ error: "An error occurred while saving the comment." });
   }
 };
 
-module.exports = { getAllComments, getCommentsByPostId, saveNewComment };
+const updateCommentById = async (req, res) => {
+  const { comment_id } = req.params;
+  const { content, sender } = req.body;
+
+  try {
+    if (!content || !sender)
+      return res.status(400).json({ error: "Content and sender are required." });
+    const updatedComment = await Comment.findByIdAndUpdate(comment_id, { content, sender }, { new: true, runValidators: true });
+    if (!updatedComment)
+      return res.status(404).json({ error: "Comment not found." });
+    res.json(updatedComment);
+  } catch (err) {
+    console.error("Error updating comment:", err);
+    res.status(500).json({ error: "An error occurred while updating the comment." });
+  }
+};
+
+module.exports = { getAllComments, getCommentsByPostId, saveNewComment, updateCommentById };

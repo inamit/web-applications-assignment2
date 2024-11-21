@@ -45,3 +45,12 @@ Content-Type: application/json
 ### Get a comment by post id
 
 GET http://localhost:3000/posts/673b78ba056cb1dd388364b4/comments
+
+### Update a comment
+PUT http://localhost:3000/comments/673f3d09aec402963b789a29
+Content-Type: application/json
+
+{
+  "content": "Update comment",
+  "sender": "Benli"
+}
