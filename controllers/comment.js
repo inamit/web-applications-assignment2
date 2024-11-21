@@ -5,7 +5,8 @@ const getAllComments = async (req, res) => {
     const comments = await Comment.find();
     res.json(comments);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.warn("Error fetching comments:", err);
+    res.status(500).json({ error: "An error occurred while fetching the comments." });
   }
 };
 
@@ -16,7 +17,8 @@ const getCommentsByPostId = async (req, res) => {
     const comments = await Comment.find({ postID: post_id });
     res.json(comments);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.warn("Error fetching comment:", err);
+    res.status(500).json({ error: "An error occurred while fetching the comment." });
   }
 };
 
@@ -32,7 +34,7 @@ const saveNewComment = async (req, res) => {
     const savedComment = await comment.save();
     res.json(savedComment);
   } catch (err) {
-    console.error("Error saving comment:", err);
+    console.warn("Error saving comment:", err);
     res.status(500).json({ error: "An error occurred while saving the comment." });
   }
 };
@@ -49,7 +51,7 @@ const updateCommentById = async (req, res) => {
       return res.status(404).json({ error: "Comment not found." });
     res.json(updatedComment);
   } catch (err) {
-    console.error("Error updating comment:", err);
+    console.warn("Error updating comment:", err);
     res.status(500).json({ error: "An error occurred while updating the comment." });
   }
 };
@@ -63,7 +65,7 @@ const deleteCommentById = async (req, res) => {
       return res.status(404).json({ error: "Comment not found." });
     res.json(deletedComment);
   } catch (err) {
-    console.error("Error deleting comment:", err);
+    console.warn("Error deleting comment:", err);
     res.status(500).json({ error: "An error occurred while deleting the comment." });
   }
 };

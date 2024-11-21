@@ -2,6 +2,7 @@ const Post = require("../models/post");
 
 const getPosts = async (req, res) => {
   const { sender } = req.query;
+  
   try {
     let posts = [];
     if (sender)
@@ -10,7 +11,7 @@ const getPosts = async (req, res) => {
       posts = await Post.find();
     res.json(posts);
   } catch (err) {
-    console.error("Error fetching posts:", err);
+    console.warn("Error fetching posts:", err);
     res.status(500).json({ error: "An error occurred while fetching the posts." });
   }
 };
@@ -24,13 +25,14 @@ const saveNewPost = async (req, res) => {
     const savedPost = await post.save();
     res.json(savedPost);
   } catch (err) {
-    console.error("Error saving post:", err);
+    console.warn("Error saving post:", err);
     res.status(500).json({ error: "An error occurred while saving the post." });
   }
 };
 
 const getPostById = async (req, res) => {
   const { post_id } = req.params;
+
   try {
     const post = await Post.findById(post_id);
     if (!post) {
@@ -38,7 +40,7 @@ const getPostById = async (req, res) => {
     }
     res.json(post);
   } catch (err) {
-    console.error("Error fetching post:", err);
+    console.warn("Error fetching post:", err);
     res.status(400).json({ error: "Invalid post ID" });
   }
 };
@@ -46,6 +48,7 @@ const getPostById = async (req, res) => {
 const updatePostById = async (req, res) => {
   const { post_id } = req.params;
   const { content, sender } = req.body;
+
   try {
       if (!content || !sender)
           return res.status(400).json({ error: "Content and sender are required." });
@@ -54,7 +57,7 @@ const updatePostById = async (req, res) => {
           return res.status(404).json({ error: "Post not found." });
       res.json(updatedPost);
   } catch (err) {
-      console.error("Error updating post:", err);
+      console.warn("Error updating post:", err);
       res.status(500).json({ error: "An error occurred while updating the post." });
   }
 };
