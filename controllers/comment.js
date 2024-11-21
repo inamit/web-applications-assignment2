@@ -10,9 +10,10 @@ const getAllComments = async (req, res) => {
 };
 
 const getCommentsByPostId = async (req, res) => {
-  const { postID } = req.params;
+  const { post_id } = req.params;
+
   try {
-    const comments = await Comment.find({ postID: postID });
+    const comments = await Comment.find({ postID: post_id });
     res.json(comments);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -20,10 +21,11 @@ const getCommentsByPostId = async (req, res) => {
 };
 
 const saveNewComment = async (req, res) => {
-  const { postID } = req.params;
+  const { post_id } = req.params;
+
   try {
     const comment = new Comment({
-      postID,
+      postID: post_id,
       content: req.body.content,
       sender: req.body.sender,
     });
