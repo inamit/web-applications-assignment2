@@ -2,12 +2,14 @@ const express = require("express");
 const router = express.Router();
 
 const {
-  getAllComments,
+  getComments,
   updateCommentById,
   deleteCommentById,
+  saveNewComment,
 } = require("../controllers/comment");
 
-router.get("/", getAllComments);
+router.post("/", saveNewComment);
+router.get("/", getComments);
 router.put("/:comment_id", updateCommentById);
 router.delete("/:comment_id", deleteCommentById);
 

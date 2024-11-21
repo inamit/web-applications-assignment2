@@ -34,7 +34,7 @@ GET http://localhost:3000/comments
 
 ### Create a new comment
 
-POST http://localhost:3000/posts/673b78ba056cb1dd388364b4/comments
+POST http://localhost:3000/comments?post_id=673b78ba056cb1dd388364b4
 Content-Type: application/json
 
 {
@@ -44,10 +44,10 @@ Content-Type: application/json
 
 ### Get a comment by post id
 
-GET http://localhost:3000/posts/673b78ba056cb1dd388364b4/comments
+GET http://localhost:3000/comments?post_id=673b78ba056cb1dd388364b4
 
 ### Update a comment
-PUT http://localhost:3000/comments/673f3d09aec402963b789a29
+PUT http://localhost:3000/comments/673f64adbf63a2c753469891
 Content-Type: application/json
 
 {
@@ -56,4 +56,4 @@ Content-Type: application/json
 }
 
 ### Delete a comment
-DELETE http://localhost:3000/comments/673f3d09aec402963b789a29
+DELETE http://localhost:3000/comments/673f64adbf63a2c753469891

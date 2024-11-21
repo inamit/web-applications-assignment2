@@ -1,29 +1,22 @@
 const Comment = require("../models/Comment");
 
-const getAllComments = async (req, res) => {
+const getComments = async (req, res) => {
   try {
-    const comments = await Comment.find();
+    const { post_id } = req.query;
+    const comments = await (post_id
+      ? Comment.find({ postID: post_id })
+      : Comment.find());
     res.json(comments);
   } catch (err) {
     console.warn("Error fetching comments:", err);
-    res.status(500).json({ error: "An error occurred while fetching the comments." });
-  }
-};
-
-const getCommentsByPostId = async (req, res) => {
-  const { post_id } = req.params;
-
-  try {
-    const comments = await Comment.find({ postID: post_id });
-    res.json(comments);
-  } catch (err) {
-    console.warn("Error fetching comment:", err);
-    res.status(500).json({ error: "An error occurred while fetching the comment." });
+    res
+      .status(500)
+      .json({ error: "An error occurred while fetching the comments." });
   }
 };
 
 const saveNewComment = async (req, res) => {
-  const { post_id } = req.params;
+  const { post_id } = req.query;
 
   try {
     const comment = new Comment({
@@ -35,7 +28,9 @@ const saveNewComment = async (req, res) => {
     res.json(savedComment);
   } catch (err) {
     console.warn("Error saving comment:", err);
-    res.status(500).json({ error: "An error occurred while saving the comment." });
+    res
+      .status(500)
+      .json({ error: "An error occurred while saving the comment." });
   }
 };
 
@@ -45,14 +40,22 @@ const updateCommentById = async (req, res) => {
 
   try {
     if (!content || !sender)
-      return res.status(400).json({ error: "Content and sender are required." });
-    const updatedComment = await Comment.findByIdAndUpdate(comment_id, { content, sender }, { new: true, runValidators: true });
+      return res
+        .status(400)
+        .json({ error: "Content and sender are required." });
+    const updatedComment = await Comment.findByIdAndUpdate(
+      comment_id,
+      { content, sender },
+      { new: true, runValidators: true }
+    );
     if (!updatedComment)
       return res.status(404).json({ error: "Comment not found." });
     res.json(updatedComment);
   } catch (err) {
     console.warn("Error updating comment:", err);
-    res.status(500).json({ error: "An error occurred while updating the comment." });
+    res
+      .status(500)
+      .json({ error: "An error occurred while updating the comment." });
   }
 };
 
@@ -66,8 +69,15 @@ const deleteCommentById = async (req, res) => {
     res.json(deletedComment);
   } catch (err) {
     console.warn("Error deleting comment:", err);
-    res.status(500).json({ error: "An error occurred while deleting the comment." });
+    res
+      .status(500)
+      .json({ error: "An error occurred while deleting the comment." });
   }
 };
 
-module.exports = { getAllComments, getCommentsByPostId, saveNewComment, updateCommentById, deleteCommentById };
+module.exports = {
+  getComments,
+  saveNewComment,
+  updateCommentById,
+  deleteCommentById,
+};
