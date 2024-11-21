@@ -54,3 +54,6 @@ Content-Type: application/json
   "content": "Update comment",
   "sender": "Benli"
 }
+
+### Delete a comment
+DELETE http://localhost:3000/comments/673f3d09aec402963b789a29

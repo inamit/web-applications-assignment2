@@ -54,4 +54,18 @@ const updateCommentById = async (req, res) => {
   }
 };
 
-module.exports = { getAllComments, getCommentsByPostId, saveNewComment, updateCommentById };
+const deleteCommentById = async (req, res) => {
+  const { comment_id } = req.params;
+
+  try {
+    const deletedComment = await Comment.findByIdAndDelete(comment_id);
+    if (!deletedComment)
+      return res.status(404).json({ error: "Comment not found." });
+    res.json(deletedComment);
+  } catch (err) {
+    console.error("Error deleting comment:", err);
+    res.status(500).json({ error: "An error occurred while deleting the comment." });
+  }
+};
+
+module.exports = { getAllComments, getCommentsByPostId, saveNewComment, updateCommentById, deleteCommentById };

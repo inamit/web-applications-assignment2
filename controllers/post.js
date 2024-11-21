@@ -10,7 +10,8 @@ const getPosts = async (req, res) => {
       posts = await Post.find();
     res.json(posts);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error("Error fetching posts:", err);
+    res.status(500).json({ error: "An error occurred while fetching the posts." });
   }
 };
 
@@ -23,7 +24,8 @@ const saveNewPost = async (req, res) => {
     const savedPost = await post.save();
     res.json(savedPost);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error("Error saving post:", err);
+    res.status(500).json({ error: "An error occurred while saving the post." });
   }
 };
 
