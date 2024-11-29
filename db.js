@@ -9,4 +9,13 @@ const connectDB = async () => {
   }
 };
 
-module.exports = { connectDB };
+const handleMongoQueryError = (res, err) => {
+  if (
+    err instanceof mongoose.Error.ValidationError ||
+    err instanceof mongoose.Error.CastError
+  )
+    return res.status(400).json({ error: err.message });
+  else res.status(500).json({ error: "An error occurred." });
+};
+
+module.exports = { connectDB, handleMongoQueryError };
