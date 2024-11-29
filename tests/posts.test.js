@@ -31,8 +31,4 @@ describe("POST /posts", () => {
     expect(response.body).toHaveProperty("error");
   });
 
-  it("should return 500 when sender is missing", async () => {
-    const content = 
-
-
 });
