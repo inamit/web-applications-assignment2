@@ -27,7 +27,8 @@ const registerNewUser = async (req, res) => {
     const savedUser = await user.save();
     res.json(savedUser);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.warn("Error registering user:", err);
+    res.status(500).json({ error: "An error occurred while registering the user." });
   }
 };
 
