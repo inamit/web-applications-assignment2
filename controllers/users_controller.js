@@ -13,22 +13,21 @@ const getAllUsers = async (req, res) => {
 const registerNewUser = async (req, res) => {
   try {
     const {username, email, password} = req.body;
-    const userExists = await User.findOne({username});
-    if (userExists) {
-      return res.status(400).json({ error: "username already exists." })
-    }
-
     const user = new User({
-      username: username,
-      email: email,
-      password: password
+      username,
+      email,
+      password
     });
 
     const savedUser = await user.save();
     res.json(savedUser);
   } catch (err) {
     console.warn("Error registering user:", err);
-    res.status(500).json({ error: "An error occurred while registering the user." });
+    if (err.code === 11000) {
+      res.status(500).json({ error: "username already exsits."});
+    } else {
+      res.status(500).json({ error: "An error occurred while registering the user."});
+    }
   }
 };
 
