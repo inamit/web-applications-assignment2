@@ -12,14 +12,14 @@ const updateCookies = (accessToken, refreshToken, res) => {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'Strict',
-        maxAge: 3600 * 1000
+        maxAge: process.env.ACCESS_TOKEN_EXPIRATION_MILLISECONDS
       });
     
       res.cookie('refreshToken', refreshToken, {
         httpOnly: true, 
         secure: process.env.NODE_ENV === 'production', 
         sameSite: 'Strict', 
-        maxAge: 7 * 24 * 60 * 60 * 1000
+        maxAge: process.env.REFRESH_TOKEN_EXPIRATION_MILLISECONDS
       });
 }
 
