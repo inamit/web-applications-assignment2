@@ -24,7 +24,9 @@ const registerNewUser = async (req, res) => {
   } catch (err) {
     console.warn("Error registering user:", err);
     if (err.code === 11000) {
-      res.status(500).json({ error: "username already exsits."});
+      res.status(400).json({ error: "username already exsits."});
+    } else if (err._message === "User validation failed") {
+      res.status(400).json({ error: "email is not valid. Please enter valid email address"});
     } else {
       res.status(500).json({ error: "An error occurred while registering the user."});
     }
