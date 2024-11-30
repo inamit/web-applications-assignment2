@@ -68,7 +68,7 @@ POST http://localhost:3000/users
 Content-Type: application/json
 
 {
-    "username": "new user1",
+    "username": "new user",
     "email": "newUser@gmail.com",
     "password": "myPassword"
 }
