@@ -541,7 +541,7 @@ components:
     UserInput:
       type: object
       required:
-        - user
+        - username
         - email
         - password
       properties:
