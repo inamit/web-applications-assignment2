@@ -6,7 +6,7 @@ const bcrypt = require("bcrypt");
 const getAllUsers = async (req, res) => {
     try {
       const users = await User.find();
-      return res.json(users);
+      return res.status(200).json(users);
     } catch (err) {
         console.warn("Error fetching users:", err);
         return res.status(500).json({ error: "An error occurred while fetching the users." });
@@ -23,7 +23,7 @@ const registerNewUser = async (req, res) => {
     });
 
     const savedUser = await user.save();
-    return res.json(savedUser);
+    return res.status(200).json(savedUser);
   } catch (err) {
     console.warn("Error registering user:", err);
     if (err.code === 11000) {
