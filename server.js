@@ -1,6 +1,5 @@
-require('dotenv').config();
+require("dotenv").config();
 const { connectDB } = require("./db");
-connectDB();
 
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -12,4 +11,14 @@ app.use(bodyParser.json());
 app.use("/posts", require("./routes/posts_route"));
 app.use("/comments", require("./routes/comments_route"));
 
-module.exports = app;
+const initApp = () => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      await connectDB();
+      resolve(app);
+    } catch (err) {
+      reject(err);
+    }
+  });
+};
+module.exports = initApp;

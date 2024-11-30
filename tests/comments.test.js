@@ -1,11 +1,13 @@
 const request = require("supertest");
-const app = require("../server.js");
+const initApp = require("../server.js");
 const mongoose = require("mongoose");
 const postsModel = require("../models/posts_model");
 const commentsModel = require("../models/comments_model");
 
+let app;
 let post;
 beforeAll(async () => {
+  app = await initApp();
   await postsModel.deleteMany();
   post = await postsModel.create({ content: "Test post", sender: "amitinbar" });
 });

@@ -1,8 +1,12 @@
 const request = require("supertest");
-const app = require("../server.js");
+const initApp = require("../server.js");
 const mongoose = require("mongoose");
 const postsModel = require("../models/posts_model");
 
+let app;
+beforeAll(async () => {
+  app = await initApp();
+});
 beforeEach(async () => {
   await postsModel.deleteMany();
 });
