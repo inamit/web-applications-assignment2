@@ -45,11 +45,22 @@ const login = async (req, res) => {
       return res.status(400).json({ error: "wrong credentials. Please try again."});
     }
     const {accessToken, refreshToken} = await token.generateTokens(existingUser);
-    return res.json({"access token": accessToken, "refresh token": refreshToken})
+    token.updateCookies(accessToken, refreshToken, res);
+    return res.status(200).json({message: "logged in successfully."});
   } catch (err) {
     console.warn("Error while logging in:", err);
-    return res.status(500).json({ error: "An error occurred while registering the user.", err});
+    return res.status(500).json({ error: "An error occurred while logging in.", err});
   }
 }
 
-module.exports = {getAllUsers, registerNewUser, login};
+const logout = async (req, res) => {
+  try{
+    token.clearCookies(res);
+    return res.status(200).json({message: "logged out successfully."});
+  } catch {
+    console.warn("Error while logging out:", err);
+    return res.status(500).json({ error: "An error occurred while logging out.", err});
+  }
+}
+
+module.exports = {getAllUsers, registerNewUser, login, logout};
