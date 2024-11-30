@@ -38,10 +38,10 @@ const registerNewUser = async (req, res) => {
 
 const login = async (req, res) => {
   try {
-    const {username, email, password} = req.body;
+    const {username, password} = req.body;
     const existingUser = await User.findOne({username});
-    const isMatchedpassword = await bcrypt.compare(password, existingUser.password);
-    if (!isMatchedpassword || email != existingUser.email) {
+    const isMatchedpassword = await bcrypt.compare(password, existingUser?.password);
+    if (!isMatchedpassword) {
       return res.status(400).json({ error: "wrong credentials. Please try again."});
     }
     const {accessToken, refreshToken} = await token.generateTokens(existingUser);
