@@ -1,10 +1,10 @@
 import dotenv from "dotenv";
-import express, { Application } from "express";
+import express, { Express } from "express";
 import bodyParser from "body-parser";
 import { connectDB } from "./db";
-import postsRoute from "./src/routes/posts_route";
-import commentsRoute from "./src/routes/comments_route";
-import usersRoute from "./src/routes/users_route";
+import postsRoute from "./routes/posts_route";
+import commentsRoute from "./routes/comments_route";
+import usersRoute from "./routes/users_route";
 
 dotenv.config();
 
@@ -17,7 +17,7 @@ app.use("/posts", postsRoute);
 app.use("/comments", commentsRoute);
 app.use("/users", usersRoute);
 
-const initApp = async (): Promise<Application> => {
+const initApp = async (): Promise<Express> => {
   try {
     await connectDB();
     return app;

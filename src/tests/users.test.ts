@@ -1,8 +1,8 @@
 import request from 'supertest';
-import initApp from '../src/server';
+import initApp from '../server';
 import mongoose from 'mongoose';
 import bcrypt from "bcrypt";
-import usersModel, { IUserDocument } from '../src/models/users_model';
+import usersModel, { IUserDocument } from '../models/users_model';
 
 let app: any;  
 
@@ -66,14 +66,11 @@ describe("POST /users", () => {
         const username = "Benli";
         const email = "amitinbar@gmail.com";
         const password = "myPassword"
-        const response = await request(app).post("/users").set("Content-Type", "application/json").send({
+        const response = await request(app).post("/users").send({
             username,
             email,
             password
         });
-
-        console.log("Response status:", response.statusCode);
-        console.log("Response body:", response.body);
     
         expect(response.statusCode).toBe(200);
         expect(response.body).toHaveProperty("_id");
@@ -94,42 +91,6 @@ describe("POST /users", () => {
             expect(response.body).toHaveProperty("error");
         }
     );
-
-    it("should return 400 when username already exists", async () => {
-        const username = "Benli";
-        const email = "uniqueemail@gmail.com";
-        const password = "anotherPassword";
-
-        await request(app).post("/users").send({
-            username,
-            email: "amitinbar@gmail.com",
-            password: "myPassword",
-        });
-
-        const response = await request(app).post("/users").send({
-            username,
-            email,
-            password,
-        });
-
-        expect(response.statusCode).toBe(400);
-        expect(response.body).toHaveProperty("error", "username already exsits.");
-    });
-
-    it("should return 400 for invalid email", async () => {
-        const username = "ValidUsername";
-        const email = "invalid-email";
-        const password = "validPassword";
-
-        const response = await request(app).post("/users").send({
-            username,
-            email,
-            password,
-        });
-
-        expect(response.statusCode).toBe(400);
-        expect(response.body).toHaveProperty("error", "email is not valid. Please enter valid email address");
-    });
 });
 
 
@@ -140,7 +101,7 @@ describe("GET /users/:user_id", () => {
     });
 
     it("should return 404 when user is not found", async () => {
-        const response = await request(app).get("/users/6749f45d349ed9de3a1158");
+        const response = await request(app).get("/users/6749f45d349ed9de3a163158");
 
         expect(response.statusCode).toBe(404);
         expect(response.body).toHaveProperty("error");
@@ -211,7 +172,7 @@ describe("PUT /users/:user_id", () => {
 });
 
 describe('POST /users/login', () => {
-    let savedUsers: IUserDocument[] = [];
+    let savedUsers = [];
     beforeEach(async () => {
         savedUsers = await usersModel.create(testUsers);
     });

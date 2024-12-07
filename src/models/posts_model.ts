@@ -1,12 +1,12 @@
 import mongoose, { Document, Schema, ObjectId } from "mongoose";
 
-export interface PostDocument extends Document {
+export interface IPostDocument extends Document {
   _id: ObjectId,
   content: string;
   sender: string;
 }
 
-const postSchema = new Schema<PostDocument>({
+const postSchema = new Schema<IPostDocument>({
   content: {
     type: String,
     required: true,
@@ -17,6 +17,6 @@ const postSchema = new Schema<PostDocument>({
   },
 });
 
-const Post = mongoose.model<PostDocument>("Post", postSchema);
+const Post = mongoose.model<IPostDocument>("Post", postSchema);
 
 export default Post;

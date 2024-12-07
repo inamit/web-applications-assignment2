@@ -1,12 +1,12 @@
 import Post from "../models/posts_model";
 import { Request, Response } from "express";
-import { handleMongoQueryError } from "../../db";
-import Comment, { CommentDocument } from "../models/comments_model";
+import { handleMongoQueryError } from "../db";
+import Comment, { ICommentDocument } from "../models/comments_model";
 
 export const getComments = async (req: Request, res: Response): Promise<any> => {
   try {
     const { post_id } : { post_id?: string } = req.query;
-    const comments : CommentDocument[]  = await (post_id
+    const comments : ICommentDocument[]  = await (post_id
       ? Comment.find({ postID: post_id })
       : Comment.find());
 
@@ -35,7 +35,7 @@ export const saveNewComment = async (req: Request, res: Response): Promise<any> 
       content: req.body.content,
       sender: req.body.sender,
     });
-    const savedComment : CommentDocument = await comment.save();
+    const savedComment : ICommentDocument = await comment.save();
     return res.json(savedComment);
   } catch (err: any) {
     console.warn("Error saving comment:", err);
@@ -54,7 +54,7 @@ export const updateCommentById = async (req: Request, res: Response): Promise<an
         .json({ error: "Content and sender are required." });
     }
 
-    const updatedComment: CommentDocument | null = await Comment.findByIdAndUpdate(
+    const updatedComment: ICommentDocument | null = await Comment.findByIdAndUpdate(
       comment_id,
       { content, sender },
       { new: true, runValidators: true }
@@ -75,7 +75,7 @@ export const deleteCommentById = async (req: Request, res: Response): Promise<an
   const { comment_id } : { comment_id?: string } = req.params;
 
   try {
-    const deletedComment: CommentDocument | null = await Comment.findByIdAndDelete(comment_id);
+    const deletedComment: ICommentDocument | null = await Comment.findByIdAndDelete(comment_id);
 
     if (!deletedComment) {
       return res.status(404).json({ error: "Comment not found." });

@@ -1,10 +1,11 @@
 import request from 'supertest';
-import initApp from '../src/server';
-import mongoose, { ObjectId } from 'mongoose';
-import postsModel, { IPostDocument } from '../src/models/posts_model';
-import commentsModel, { ICommentDocument } from '../src/models/comments_model';
+import initApp from '../server';
+import { Express } from 'express';
+import mongoose from 'mongoose';
+import postsModel, { IPostDocument } from '../models/posts_model';
+import commentsModel from '../models/comments_model';
 
-let app: any;  
+let app: Express;  
 
 let post: IPostDocument;
 

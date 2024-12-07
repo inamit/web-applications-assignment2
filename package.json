@@ -1,12 +1,12 @@
 {
   "name": "colman-webapplications",
   "version": "1.0.0",
-  "main": "app.ts",
+  "main": "src/app.ts",
   "type": "module",
   "scripts": {
-    "start": "node app.ts",
-    "devstart": "nodemon app.ts",
-    "test": "jest --coverage --detectOpenHandles --forceExit"
+    "start": "tsc && node src/app.ts",
+    "devstart": "tsc && nodemon src/app.ts",
+    "test": "tsc && jest --coverage --detectOpenHandles --forceExit"
   },
   "author": "",
   "license": "ISC",

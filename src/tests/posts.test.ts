@@ -1,7 +1,7 @@
 import request from 'supertest';
-import initApp from '../src/server';
+import initApp from '../server';
 import mongoose from 'mongoose';
-import postsModel, { IPostDocument } from '../src/models/posts_model';
+import postsModel, { IPostDocument } from '../models/posts_model';
 
 let app: any;  
 
