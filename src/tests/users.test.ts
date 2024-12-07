@@ -91,6 +91,41 @@ describe("POST /users", () => {
             expect(response.body).toHaveProperty("error");
         }
     );
+
+    it("should return 400 when username already exists", async () => {
+        const username = "Benli";
+        const email = "uniqueemail@gmail.com";
+        const password = "anotherPassword";
+
+        await request(app).post("/users").send({
+            username,
+            email: "amitinbar@gmail.com",
+            password: "myPassword",
+        });
+        const response = await request(app).post("/users").send({
+            username,
+            email,
+            password,
+        });
+
+        expect(response.statusCode).toBe(400);
+        expect(response.body).toHaveProperty("error", "username already exsits.");
+    });
+
+    it("should return 400 for invalid email", async () => {
+        const username = "ValidUsername";
+        const email = "invalid-email";
+        const password = "validPassword";
+
+        const response = await request(app).post("/users").send({
+            username,
+            email,
+            password,
+        });
+
+        expect(response.statusCode).toBe(400);
+        expect(response.body).toHaveProperty("error", "email is not valid. Please enter valid email address");
+    });
 });
 
 
