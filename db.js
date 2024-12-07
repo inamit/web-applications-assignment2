@@ -11,7 +11,16 @@ const connectDB = async () => {
 };
 
 const handleMongoQueryError = (res, err) => {
-  if (
+  const duplicateKeyErrorCode = 11000;
+
+  if (err?.code === duplicateKeyErrorCode) {
+    return res.status(400).json({
+      error: `Values of fields ${Object.keys(
+        err.keyPattern
+      ).toString()} already exist`,
+      fields: Object.keys(err.keyPattern),
+    });
+  } else if (
     err instanceof mongoose.Error.ValidationError ||
     err instanceof mongoose.Error.CastError
   ) {
