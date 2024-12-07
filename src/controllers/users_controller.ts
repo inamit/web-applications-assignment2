@@ -1,12 +1,12 @@
 import bcrypt from 'bcrypt';
 import { Request, Response } from "express";
 import * as token from '../utilities/token';
-import User, { IUserDocument } from '../models/users_model';
+import User, { IUser } from '../models/users_model';
 
 
 export const getAllUsers = async (req: Request, res: Response): Promise<any> => {
     try {
-      const users : IUserDocument[] | null= await User.find();
+      const users : IUser[] | null= await User.find();
       return res.status(200).json(users);
     } catch (err) {
         console.warn("Error fetching users:", err);
@@ -17,13 +17,13 @@ export const getAllUsers = async (req: Request, res: Response): Promise<any> => 
 export const registerNewUser = async (req: Request, res: Response): Promise<any> => {
   try {
     const {username, email, password} = req.body;
-    const user : IUserDocument= new User({
+    const user = new User({
       username,
       email,
       password
     });
 
-    const savedUser : IUserDocument= await user.save();
+    const savedUser : IUser= await user.save();
     return res.status(200).json(savedUser);
   } catch (err: any) {
     console.warn("Error registering user:", err);
@@ -40,7 +40,7 @@ export const registerNewUser = async (req: Request, res: Response): Promise<any>
 export const login = async (req: Request, res: Response): Promise<any> => {
   try {
     const {username, password} : {username: string, password: string}= req.body;
-    const existingUser: IUserDocument | null = await User.findOne({username});
+    const existingUser: IUser | null = await User.findOne({username});
     if (existingUser) {
       const isMatchedpassword : boolean = await bcrypt.compare(password, existingUser?.password);
       if (!isMatchedpassword) {

@@ -1,10 +1,11 @@
+import bcrypt from "bcrypt";
 import request from 'supertest';
 import initApp from '../server';
 import mongoose from 'mongoose';
-import bcrypt from "bcrypt";
-import usersModel, { IUserDocument } from '../models/users_model';
+import { Express } from 'express';
+import usersModel, { IUser } from '../models/users_model';
 
-let app: any;  
+let app: Express; 
 
 beforeAll(async () => {
   app = await initApp();
@@ -130,7 +131,7 @@ describe("POST /users", () => {
 
 
 describe("GET /users/:user_id", () => {
-    let savedUsers: IUserDocument[] = [];
+    let savedUsers: IUser[] = [];
     beforeEach(async () => {
         savedUsers = await usersModel.create(testUsers);
     });
@@ -159,7 +160,7 @@ describe("GET /users/:user_id", () => {
 });
 
 describe("PUT /users/:user_id", () => {
-    let savedUsers: IUserDocument[] = [];
+    let savedUsers: IUser[] = [];
     beforeEach(async () => {
         savedUsers = await usersModel.create(testUsers);
     });

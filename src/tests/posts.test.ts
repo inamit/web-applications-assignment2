@@ -1,9 +1,10 @@
 import request from 'supertest';
 import initApp from '../server';
 import mongoose from 'mongoose';
-import postsModel, { IPostDocument } from '../models/posts_model';
+import { Express } from 'express';
+import postsModel, { IPost } from '../models/posts_model';
 
-let app: any;  
+let app: Express; 
 
 beforeAll(async () => {
   app = await initApp();
@@ -83,7 +84,7 @@ describe("GET /posts", () => {
 
       expect(response.statusCode).toBe(200);
       expect(response.body).toBeInstanceOf(Array);
-      response.body.forEach((post: IPostDocument) => {
+      response.body.forEach((post: IPost) => {
         expect(post.sender).toBe(sender);
       });
       expect(response.body).toHaveLength(expectedNumberOfPosts);
@@ -105,7 +106,7 @@ describe("GET /posts", () => {
 });
 
 describe("GET /posts/:post_id", () => {
-  let savedPosts: IPostDocument[] = [];
+  let savedPosts: IPost[] = [];
   beforeEach(async () => {
     savedPosts = await postsModel.create(testPosts);
   });
@@ -134,7 +135,7 @@ describe("GET /posts/:post_id", () => {
 });
 
 describe("PUT /posts/:post_id", () => {
-  let savedPosts: IPostDocument[] = [];
+  let savedPosts: IPost[] = [];
   beforeEach(async () => {
     savedPosts = await postsModel.create(testPosts);
   });

@@ -2,12 +2,12 @@ import request from 'supertest';
 import initApp from '../server';
 import { Express } from 'express';
 import mongoose from 'mongoose';
-import postsModel, { IPostDocument } from '../models/posts_model';
-import commentsModel from '../models/comments_model';
+import postsModel, { IPost } from '../models/posts_model';
+import commentsModel, { IComment } from '../models/comments_model';
 
 let app: Express;  
 
-let post: IPostDocument;
+let post: IPost;
 
 beforeAll(async () => {
   app = await initApp();
@@ -89,9 +89,9 @@ describe("POST /comments", () => {
   });
 });
 
-let comments: any = [
-  { content: "First comment", sender: "amitinbar", postID: "673b7bd1df3f05e1bdcf4321"},
-  { content: "Second comment", sender: "amitinbar", postID: "673b7bd1df3f05e1bdcf5221" },
+let comments:  Partial<IComment>[] = [
+  { content: "First comment", sender: "amitinbar"},
+  { content: "Second comment", sender: "amitinbar"},
 ];
 describe("GET /comments", () => {
   describe("when there are no comments", () => {
@@ -105,9 +105,9 @@ describe("GET /comments", () => {
 
   describe("when there are comments", () => {
     beforeEach(async () => {
-      comments = comments.map((comment: any) => ({ ...comment, postID: post._id }));
+      comments = comments.map((comment: Partial<IComment>) => ({ ...comment, postID: post._id }));
       comments.push({
-        postID: "673b7bd1df3f05e1bdcf5321",
+        postID: new mongoose.Types.ObjectId("673b7bd1df3f05e1bdcf5321"),
         content: "Third comment",
         sender: "Benli"
       });
@@ -123,7 +123,7 @@ describe("GET /comments", () => {
 
     it("should return all comments by post id", async () => {
       const numberOfComments = comments.filter(
-        (comment: any) => comment.postID === post._id
+        (comment: Partial<IComment>) => comment.postID === post._id
       ).length;
       const response = await request(app).get(`/comments?post_id=${post._id}`);
 
@@ -150,9 +150,9 @@ describe("GET /comments", () => {
 });
 
 describe("PUT /comments/:comment_id", () => {
-  let savedComments: any;
+  let savedComments: Partial<IComment>[];
   beforeEach(async () => {
-    comments = comments.map((comment: any) => ({ ...comment, postID: post._id }));
+    comments = comments.map((comment: Partial<IComment>) => ({ ...comment, postID: post._id }));
     savedComments = await commentsModel.create(comments);
   });
 
@@ -215,9 +215,9 @@ describe("PUT /comments/:comment_id", () => {
 });
 
 describe("DELETE /comments/:comment_id", () => {
-  let savedComments: any;
+  let savedComments: Partial<IComment>[];
   beforeEach(async () => {
-    comments = comments.map((comment: any) => ({ ...comment, postID: post._id }));
+    comments = comments.map((comment: Partial<IComment>) => ({ ...comment, postID: post._id }));
     savedComments = await commentsModel.create(comments);
   });
 

@@ -1,14 +1,14 @@
-import mongoose, { Document, Schema, ObjectId } from "mongoose";
+import mongoose, { Schema, Types } from "mongoose";
 import bcrypt from "bcrypt";
 
-export interface IUserDocument extends Document {
-  _id: ObjectId,
+export interface IUser {
+  _id: Types.ObjectId,
   username: string;
   email: string;
   password: string;
 }
 
-const userSchema = new Schema<IUserDocument>({
+const userSchema = new Schema<IUser>({
   username: {
     type: String,
     required: true,
@@ -38,6 +38,6 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-const User = mongoose.model<IUserDocument>("User", userSchema);
+const User = mongoose.model<IUser>("User", userSchema);
 
 export default User;

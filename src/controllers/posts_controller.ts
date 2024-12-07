@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
 import { handleMongoQueryError } from "../db";
-import Post, { IPostDocument } from "../models/posts_model";
+import Post, { IPost } from "../models/posts_model";
 
 export const getPosts = async (req: Request, res: Response): Promise<any> => {
   const { sender }: { sender?: string } = req.query;
 
   try {
-    let posts: IPostDocument[] | null = await (sender ? Post.find({ sender: sender }) : Post.find());
+    let posts: IPost[] | null = await (sender ? Post.find({ sender: sender }) : Post.find());
     return res.json(posts);
   } catch (err: any) {
     console.warn("Error fetching posts:", err);
@@ -20,7 +20,7 @@ export const saveNewPost = async (req: Request, res: Response): Promise<any> => 
       content: req.body.content,
       sender: req.body.sender,
     });
-    const savedPost: IPostDocument = await post.save();
+    const savedPost: IPost = await post.save();
     return res.json(savedPost);
   } catch (err: any) {
     console.warn("Error saving post:", err);
@@ -32,7 +32,7 @@ export const getPostById = async (req: Request, res: Response): Promise<any> => 
   const { post_id }: { post_id?: string } = req.params;
 
   try {
-    const post: IPostDocument | null = await Post.findById(post_id);
+    const post: IPost | null = await Post.findById(post_id);
 
     if (!post) {
       return res.status(404).json({ error: "Post not found" });
@@ -54,7 +54,7 @@ export const updatePostById = async (req: Request, res: Response): Promise<any> 
       return res.status(400).json({ error: "Content and sender are required." });
     }
 
-    const updatedPost: IPostDocument | null = await Post.findByIdAndUpdate(
+    const updatedPost: IPost | null = await Post.findByIdAndUpdate(
       post_id,
       { content, sender },
       { new: true, runValidators: true }
